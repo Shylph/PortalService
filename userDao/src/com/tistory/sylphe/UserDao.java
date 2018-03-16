@@ -1,4 +1,4 @@
-package com.tistory.sylphe.app;
+package com.tistory.sylphe;
 
 import java.sql.*;
 

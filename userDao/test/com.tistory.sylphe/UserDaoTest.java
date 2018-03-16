@@ -1,12 +1,12 @@
+package com.tistory.sylphe;
 
-import com.tistory.sylphe.app.User;
-import com.tistory.sylphe.app.UserDao;
 import org.junit.Test;
 
 import java.sql.SQLException;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 
 public class UserDaoTest {
 
