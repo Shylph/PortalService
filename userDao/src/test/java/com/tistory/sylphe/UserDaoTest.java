@@ -1,5 +1,7 @@
 package com.tistory.sylphe;
 
+import main.java.sylphe.User;
+import main.java.sylphe.UserDao;
 import org.junit.Before;
 import org.junit.Test;
 
