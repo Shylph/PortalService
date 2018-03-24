@@ -1,4 +1,4 @@
-package main.java.sylphe;
+package com.tistory.sylphe;
 
 public class User {
     private Integer id;

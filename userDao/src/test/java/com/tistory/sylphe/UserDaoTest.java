@@ -1,7 +1,5 @@
 package com.tistory.sylphe;
 
-import main.java.sylphe.User;
-import main.java.sylphe.UserDao;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,19 +13,22 @@ public class UserDaoTest {
 
     private UserDao userDao;
 
+
     @Before
     public void setup(){
-        userDao = new UserDao();
+        DaoFactory daoFactory = new DaoFactory();
+        userDao = daoFactory.getUserDao();
+
     }
 
     @Test
     public void get() throws SQLException, ClassNotFoundException {
-        int id=1;
+         int id=1;
         User user = userDao.get(id);
 
         assertThat(user.getId(), is(1));
-        assertThat(user.getName(), is("허윤호"));
-        assertThat(user.getPassword(), is("1234"));
+        assertThat(user.getName(), is("헐크"));
+        assertThat(user.getPassword(), is("1111"));
 
     }
 

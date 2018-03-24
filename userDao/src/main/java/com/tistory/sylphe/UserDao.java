@@ -1,12 +1,18 @@
-package main.java.sylphe;
+package com.tistory.sylphe;
 
 import java.sql.*;
 
 
 public class UserDao {
+    private final ConnectionMaker connectionMaker;
+
+    public UserDao(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
+    }
+
     public User get(int id) throws SQLException, ClassNotFoundException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("select * from userinfo where id=?");
+        Connection connection = connectionMaker.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from jeju where id=?");
         preparedStatement.setInt(1, id);
 
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -23,8 +29,8 @@ public class UserDao {
     }
 
     public Integer insert(User user) throws ClassNotFoundException, SQLException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("insert into userinfo(name,password) values (?,?)");
+        Connection connection = connectionMaker.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into jeju(name,password) values (?,?)");
         preparedStatement.setString(1, user.getName());
         preparedStatement.setString(2, user.getPassword());
         preparedStatement.executeUpdate();
@@ -37,10 +43,6 @@ public class UserDao {
         resultSet.close();
         preparedStatement.close();
         connection.close();
-        return id;    }
-
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://192.168.0.54/jeju?characterEncoding=utf-8", "jeju", "jejupw");
+        return id;
     }
 }
