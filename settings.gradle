@@ -1,3 +1,4 @@
-//rootProject.name = 'ssh-tunneling'
+rootProject.name = 'PortalService'
 
 include ':ssh-tunneling'
+include ':userDao'
