@@ -14,15 +14,14 @@ public class UserDaoTest {
 
 
     @Before
-    public void setup(){
+    public void setup() {
         DaoFactory daoFactory = new DaoFactory();
         userDao = daoFactory.getUserDao();
-
     }
 
     @Test
     public void get() throws SQLException, ClassNotFoundException {
-         int id=1;
+        int id = 1;
         User user = userDao.get(id);
 
         assertThat(user.getId(), is(1));
