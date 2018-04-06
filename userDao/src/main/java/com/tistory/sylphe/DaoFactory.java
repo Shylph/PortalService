@@ -1,14 +1,18 @@
 package com.tistory.sylphe;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
 public class DaoFactory {
-    private UserDao userDao;
 
-
-    public UserDao getUserDao() {
-        return new UserDao(getConnectionMaker());
+    @Bean
+    public UserDao userDao() {
+        return new UserDao(connectionMaker());
     }
 
-    private ConnectionMaker getConnectionMaker() {
+    @Bean
+    public ConnectionMaker connectionMaker() {
         return new JejuConnectionMaker();
     }
 }
