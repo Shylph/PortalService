@@ -19,13 +19,13 @@ public class UserDaoTest {
     @Before
     public void setup() {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(DaoFactory.class);
-        userDao = applicationContext.getBean("userDao",UserDao.class);
+        userDao = applicationContext.getBean("userDao", UserDao.class);
     }
 
     @Test
-    public void get() throws SQLException, ClassNotFoundException {
+    public void get() throws SQLException {
         int id = 1;
-        User user = userDao.get(id);
+        User user = userDao.queryForObject(id);
 
         assertThat(user.getId(), is(1));
         assertThat(user.getName(), is("헐크"));
@@ -34,13 +34,13 @@ public class UserDaoTest {
     }
 
     @Test
-    public void add() throws SQLException, ClassNotFoundException {
+    public void add() throws SQLException {
         User user = new User();
         user.setName("헐크");
         user.setPassword("1111");
         Integer id = userDao.insert(user);
 
-        User insertedUser = userDao.get(id);
+        User insertedUser = userDao.queryForObject(id);
 
         assertThat(insertedUser.getId(), is(id));
         assertThat(insertedUser.getName(), is(user.getName()));
@@ -48,7 +48,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void update() throws SQLException, ClassNotFoundException {
+    public void update() throws SQLException {
         User user = new User();
         user.setName("헐크");
         user.setPassword("1111");
@@ -59,7 +59,7 @@ public class UserDaoTest {
         user.setPassword("1234");
         userDao.update(user);
 
-        User updatedUser = userDao.get(id);
+        User updatedUser = userDao.queryForObject(id);
 
         assertThat(updatedUser.getId(), is(updatedUser.getId()));
         assertThat(updatedUser.getName(), is(user.getName()));
@@ -67,7 +67,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void delete() throws SQLException, ClassNotFoundException {
+    public void delete() throws SQLException {
         User user = new User();
         user.setName("헐크");
         user.setPassword("1111");
@@ -75,7 +75,7 @@ public class UserDaoTest {
 
         userDao.delete(id);
 
-        User updatedUser = userDao.get(id);
+        User updatedUser = userDao.queryForObject(id);
 
         assertThat(updatedUser, nullValue());
     }
