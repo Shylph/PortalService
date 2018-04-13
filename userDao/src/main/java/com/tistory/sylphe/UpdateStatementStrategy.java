@@ -12,7 +12,7 @@ public class UpdateStatementStrategy implements StatementStrategy {
     }
 
     @Override
-    public PreparedStatement makeStatement( Connection connection) throws SQLException {
+    public PreparedStatement makeStatement(Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("update jeju set name=?, password = ? where id =? ");
         preparedStatement.setString(1, user.getName());
         preparedStatement.setString(2, user.getPassword());
