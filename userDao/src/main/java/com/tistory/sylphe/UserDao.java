@@ -1,10 +1,7 @@
 package com.tistory.sylphe;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 public class UserDao {
@@ -21,9 +18,8 @@ public class UserDao {
         User user=null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("select * from jeju where id=?");
-            preparedStatement.setInt(1, id);
-
+            StatementStrategy statementStrategy = new GetUserStatementStrategy(id);
+            preparedStatement = statementStrategy.makeStatement(connection);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -65,13 +61,11 @@ public class UserDao {
         Integer id;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("insert into jeju(name,password) values (?,?)");
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getPassword());
+            StatementStrategy statementStrategy = new InsertStatementStrategy(user);
+            preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.executeUpdate();
 
-            preparedStatement = connection.prepareStatement("select last_insert_id()");
-            resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
             id = resultSet.getInt(1);
         } finally {
@@ -107,10 +101,8 @@ public class UserDao {
         Integer id;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("update jeju set name=?, password = ? where id =? ");
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setInt(3, user.getId());
+            StatementStrategy statementStrategy = new UpdateStatementStrategy(user);
+            preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.executeUpdate();
 
         } finally {
@@ -136,8 +128,8 @@ public class UserDao {
         PreparedStatement preparedStatement = null;
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement("delete from jeju where id =? ");
-            preparedStatement.setInt(1, id);
+            StatementStrategy statementStrategy = new DeleteUserStatementStrategy(id);
+            preparedStatement = statementStrategy.makeStatement(connection);
             preparedStatement.executeUpdate();
         } finally {
             if (preparedStatement != null) {
